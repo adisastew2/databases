@@ -8,9 +8,7 @@ CREATE TABLE messages (
   id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   username VARCHAR(30) DEFAULT 'anonymous',
   message TEXT,
-  roomname VARCHAR(40) DEFAULT 'lobby',
-  createdAt DATE NOT NULL
-  
+  roomname VARCHAR(40) DEFAULT 'lobby'
 
 
 
