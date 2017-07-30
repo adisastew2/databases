@@ -22,16 +22,15 @@ module.exports = {
     }, // a function which produces all the messages
 
     post: function (body, callback) {
-      // console.log(body);
-      var queryString = `INSERT INTO messages (message) VALUES ("${body.message}")`;
+      var queryString = `INSERT INTO messages (message) VALUES ("${body.text}")`;
       // console.log(queryString);
       db.query(queryString, function(err, results) {
         if (err) {
           // throw err;
           console.log('Error: ', err);
-          callback(err);
+          callback(null, err);
         } else {
-          callback(results);
+          callback(results, null);
           console.log('Success!');
         }
       });
@@ -52,6 +51,7 @@ module.exports = {
           callback(err);
         } else {
           callback(results);
+         
           console.log('Success!');
         }
       });
@@ -68,6 +68,7 @@ module.exports = {
           callback(err);
         } else {
           console.log('Success!');
+          
           callback(results);
         }
       });

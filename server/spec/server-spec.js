@@ -69,7 +69,7 @@ describe('Persistent Node Chat Server', function() {
 
   it('Should output all messages from the DB', function(done) {
     // Let's insert a message into the db
-    var queryString = 'INSERT INTO messages (username, message, roomname) VALUES ("John", "Men like you can never change!", "main")';
+    var queryString = 'INSERT INTO messages (username, message, roomname) VALUES ("John", "Men like you can never change!", "lobby")';
     var queryArgs = [];
     // TODO - The exact query string and query args to use
     // here depend on the schema you design, so I'll leave
@@ -85,7 +85,7 @@ describe('Persistent Node Chat Server', function() {
         
         
         expect(messageLog[0].message).to.equal('Men like you can never change!');
-        expect(messageLog[0].roomname).to.equal('main');
+        expect(messageLog[0].roomname).to.equal('lobby');
         done();
       });
     });

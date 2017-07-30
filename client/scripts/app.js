@@ -27,18 +27,27 @@ var app = {
 
     // Fetch previous messages
     app.startSpinner();
-    app.fetch(false);
+    app.fetch(true);
 
     // Poll for new messages
-    setInterval(function() {
-      app.fetch(true);
-    }, 3000);
+    // setInterval(function() {
+    //   app.fetch(true);
+    // }, 3000);
   },
 
   send: function(message) {
+console.log('hello world', message);
     app.startSpinner();
+    /*
+    var message = {
+      username: app.username,
+      text: app.$message.val(),
+      roomname: app.roomname || 'lobby'
+    };
 
+    */
     // POST the message to the server
+    
     $.ajax({
       url: app.server,
       type: 'POST',
@@ -64,25 +73,26 @@ var app = {
       contentType: 'application/json',
       success: function(data) {
         // Don't bother if we have nothing to work with
-        if (!data.results || !data.results.length) { return; }
+        //if (!data.results || !data.results.length) { return; }
 
         // Store messages for caching later
-        app.messages = data.results;
-
+        app.messages = data;
+        data = JSON.parse(data);
+        
         // Get the last message
-        var mostRecentMessage = data.results[data.results.length - 1];
+        //var mostRecentMessage = data.results[data.results.length - 1];
 
         // Only bother updating the DOM if we have a new message
-        if (mostRecentMessage.objectId !== app.lastMessageId) {
+        //if (mostRecentMessage.objectId !== app.lastMessageId) {
           // Update the UI with the fetched rooms
-          app.renderRoomList(data.results);
+          app.renderRoomList(data);
 
           // Update the UI with the fetched messages
-          app.renderMessages(data.results, animate);
+          app.renderMessages(data, animate);
 
           // Store the ID of the most recent message
-          app.lastMessageId = mostRecentMessage.objectId;
-        }
+          //app.lastMessageId = mostRecentMessage.objectId;
+        //}
       },
       error: function(error) {
         console.error('chatterbox: Failed to fetch messages', error);
@@ -162,7 +172,7 @@ var app = {
     }
 
     var $message = $('<br><span/>');
-    $message.text(message.text).appendTo($chat);
+    $message.text(message.message).appendTo($chat);
 
     // Add the message to the UI
     app.$chats.append($chat);
@@ -217,7 +227,7 @@ var app = {
       text: app.$message.val(),
       roomname: app.roomname || 'lobby'
     };
-
+    
     app.send(message);
 
     // Stop the form from submitting
